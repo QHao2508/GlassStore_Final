@@ -1,0 +1,28 @@
+﻿@page
+@model GlassStore.Pages.OrderHistoryModel
+@{
+    ViewData["Title"] = "Lịch sử mua hàng";
+}
+
+<div class="container mt-5">
+    <h2>Lịch sử mua hàng</h2>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Mã ĐH</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>#@order.OrderId</td>
+                    <td>@(order.OrderDate?.ToString("dd/MM/yyyy HH:mm") ?? "N/A")</td>
+                    <td>@order.TotalAmount?.ToString("N0") VNĐ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

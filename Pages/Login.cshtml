@@ -1,0 +1,63 @@
+﻿@page
+@model GlassStore.Pages.Login.LoginModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<style>
+    .login-container {
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #000, #333);
+    }
+
+    .login-card {
+        width: 400px;
+        padding: 30px;
+        border-radius: 15px;
+        background: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .login-title {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .btn-login {
+        width: 100%;
+    }
+
+    input {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="height: 90vh;">
+    <div class="card p-5 shadow" style="width: 400px; border-radius: 15px;">
+
+        <h2 class="text-center mb-4">🔐 Đăng nhập</h2>
+
+        <form method="post">
+            <div class="mb-3">
+                <input asp-for="Username" class="form-control" placeholder="Tên đăng nhập" />
+            </div>
+
+            <div class="mb-3">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Mật khẩu" />
+            </div>
+
+            <button class="btn btn-dark w-100">Đăng nhập</button>
+        </form>
+
+        <p class="text-danger mt-3 text-center">@Model.Message</p>
+
+        <p class="text-center mt-3">
+            Chưa có tài khoản?
+            <a href="/Register" class="text-primary">Đăng ký tại đây</a>
+        </p>
+    </div>
+</div>

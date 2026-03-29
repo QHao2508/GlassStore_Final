@@ -1,0 +1,16 @@
+﻿@page
+@{
+    ViewData["Title"] = "Đặt hàng thành công";
+}
+
+<div class="container mt-5 text-center">
+    <div class="card shadow-sm p-5 border-0 bg-light">
+        <h1 class="text-success mb-3">Đặt hàng thành công!</h1>
+        <p class="fs-5">Cảm ơn bạn đã mua sắm tại GlassStore. Đơn hàng của bạn đã được ghi nhận và đang được xử lý.</p>
+        
+        <div class="mt-4">
+            <a asp-page="/Customer/ProductList" class="btn btn-primary px-4 py-2 me-2"> Tiếp tục mua sắm</a>
+            <a asp-page="/Customer/OrderHistory" class="btn btn-outline-info px-4 py-2"> Xem lịch sử đơn hàng</a>
+        </div>
+    </div>
+</div>

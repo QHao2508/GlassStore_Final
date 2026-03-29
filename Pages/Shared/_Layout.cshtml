@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Cửa hàng kính</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            padding: 14px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 30px;
+            color: #fff !important;
+            letter-spacing: 2px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ccc !important;
+            font-size: 15px;
+            margin-left: 20px;
+            transition: 0.3s;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: #fff !important;
+            }
+
+            .navbar-nav .nav-link.active {
+                color: #fff !important;
+                font-weight: 600;
+            }
+
+        footer {
+            background: #111;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .btn {
+            transition: 0.3s;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container position-relative">
+
+            <!-- Logo -->
+            <a class="navbar-brand position-absolute start-50 translate-middle-x" href="/">
+                👓 Cửa hàng kính
+            </a>
+
+            <!-- Menu -->
+            <div class="ms-auto">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Customer/ProductList">Sản phẩm</a>
+                    </li>
+
+                    <!-- ✅ FIX: link sai -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Customer/Checkout">Thanh toán</a>
+                    </li>
+
+                    <!-- Admin -->
+                    @if (Context.Session.GetString("ROLE") == "Admin")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-info" href="/Admin/Index">
+                                ⚙️ Quản trị
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Login / Logout -->
+                    @if (Context.Session.GetString("USERNAME") != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" href="/Logout">
+                                👤 @Context.Session.GetString("USERNAME") (Đăng xuất)
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Login">Đăng nhập</a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BODY -->
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-center p-3 mt-5">
+        © 2026 Cửa hàng kính - Kính mắt cao cấp
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

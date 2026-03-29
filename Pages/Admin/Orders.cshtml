@@ -1,0 +1,71 @@
+﻿@page
+@model GlassStore.Pages.Admin.OrdersModel
+@using System.Globalization
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Quản lý đơn hàng</h2>
+
+    <form method="post" asp-page-handler="ResetAll">
+        <button class="btn btn-danger mb-3"
+                onclick="return confirm('Xóa toàn bộ đơn hàng?')">
+            🗑 Reset toàn bộ đơn hàng
+        </button>
+    </form>
+
+    @foreach (var order in Model.Orders)
+    {
+        <div class="card mb-4 shadow-sm">
+
+            <div class="card-header bg-dark text-white d-flex justify-content-between">
+                <div>
+                    <b>Order #@order.OrderId</b>
+                    - User: @order.User?.Username
+                </div>
+
+                <div class="text-warning fw-bold">
+                    @String.Format(new CultureInfo("vi-VN"), "{0:c0}", order.TotalAmount)
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>SL</th>
+                            <th>Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in order.OrderDetails)
+                        {
+                            <tr>
+                                <td>@item.Product?.Name</td>
+
+                                <td class="text-danger">
+                                    @String.Format(new CultureInfo("vi-VN"), "{0:c0}", item.Price)
+                                </td>
+
+                                <td>@item.Quantity</td>
+
+                                <td class="fw-bold">
+                                    @String.Format(
+                                        new CultureInfo("vi-VN"),
+                                        "{0:c0}",
+                                        item.Price * item.Quantity
+                                    )
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    }
+
+</div>

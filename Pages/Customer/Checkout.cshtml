@@ -1,0 +1,80 @@
+﻿@page
+@model GlassStore.Pages.CheckoutModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Sản phẩm thanh toán</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>SL</th>
+                <th>Tổng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                var product = Model.Products[item.ProductId];
+
+                <tr>
+                    <td>
+                        @product.Name
+                    </td>
+
+                    <td class="text-danger fw-bold">
+                        @product.Price.ToString("c0", new CultureInfo("vi-VN"))
+                    </td>
+
+                    <td>
+                        @item.Quantity
+                    </td>
+
+                    <td class="fw-bold">
+                        @((product.Price * item.Quantity).ToString("c0", new CultureInfo("vi-VN")))
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end mb-4 fs-5 fw-bold">
+        Tổng tiền:
+        <span class="text-danger">
+            @Model.Total.ToString("c0", new CultureInfo("vi-VN"))
+        </span>
+    </div>
+
+    <hr />
+
+    <h2>Thông tin giao hàng</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label>Họ và tên</label>
+            <input asp-for="Form.CustomerName" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Số điện thoại</label>
+            <input asp-for="Form.Phone" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label>Địa chỉ</label>
+            <textarea asp-for="Form.Address" class="form-control" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Xác nhận đặt hàng
+        </button>
+    </form>
+
+</div>

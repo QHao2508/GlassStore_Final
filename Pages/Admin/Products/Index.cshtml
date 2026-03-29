@@ -1,0 +1,125 @@
+﻿@page
+@model GlassStore.Pages.Admin.Products.IndexModel
+@using GlassStore.Helpers
+@{
+    Layout = "_AdminLayout";
+}
+<div class="container-fluid px-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+        <h2 class="fw-bold">📦 Quản lý sản phẩm</h2>
+        <a href="/Admin/Create" class="btn btn-primary">
+            ➕ Thêm sản phẩm
+        </a>
+    </div>
+
+    <!-- SEARCH -->
+    <form method="get" class="mb-3 d-flex gap-2">
+        <input type="text" name="Search" value="@Model.Search"
+               class="form-control w-25"
+               placeholder="Tìm kiếm sản phẩm..." />
+
+        <select name="IsDeletedFilter" class="form-select w-auto">
+            <option value="" selected="@(Model.IsDeletedFilter == null)">Tất cả</option>
+            <option value="false" selected="@(Model.IsDeletedFilter == false)">Đang bán</option>
+            <option value="true" selected="@(Model.IsDeletedFilter == true)">Đã xóa</option>
+        </select>
+
+        <button class="btn btn-dark">Tìm</button>
+    </form>
+
+    <!-- TABLE -->
+    <div class="card shadow border-0">
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Tồn kho</th>
+                        <th>Trạng thái</th>
+                        <th width="220">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.Products)
+                    {
+                        <tr class="@(item.IsDeleted ? "table-danger text-muted" : "")">
+
+                            <td>@item.ProductId</td>
+
+                            <td class="@(item.IsDeleted ? "text-decoration-line-through" : "")">
+                                @item.Name
+                            </td>
+
+                            <td class="fw-bold text-danger">
+                                @CurrencyHelper.ToVnd(item.Price)
+                            </td>
+
+                            <td>
+                                @if (item.Stock > 0)
+                                {
+                                    <span class="text-success fw-bold">@item.Stock</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger fw-bold">Hết hàng</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.IsDeleted)
+                                {
+                                    <span class="badge bg-danger">Đã xóa</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Đang bán</span>
+                                }
+                            </td>
+
+                            <td>
+                                <a href="/Admin/Edit?id=@item.ProductId"
+                                   class="btn btn-sm btn-warning">
+                                    ✏️ Sửa
+                                </a>
+
+                                @if (!item.IsDeleted)
+                                {
+                                    <form method="post"
+                                          asp-page-handler="Delete"
+                                          asp-route-id="@item.ProductId"
+                                          class="d-inline">
+                                        <button class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Xóa sản phẩm này?')">
+                                            🗑 Xóa
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post"
+                                          asp-page-handler="Restore"
+                                          asp-route-id="@item.ProductId"
+                                          class="d-inline">
+                                        <button class="btn btn-sm btn-success">
+                                            ♻️ Khôi phục
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
