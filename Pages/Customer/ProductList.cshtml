@@ -1,7 +1,7 @@
 ﻿@page
 @model GlassStore.Pages.Customer.ProductListModel
 @inject CartService CartService
-@using System.Globalization
+@using GlassStore.Helpers
 
 @{
     var cart = CartService.GetCart();
@@ -29,25 +29,34 @@
                             <div class="card-body">
                                 <h5>@item.Name</h5>
 
-                                <!-- ✅ FIX GIÁ -->
                                 <p class="text-danger fw-bold">
-                                    @item.Price.ToString("c0", new CultureInfo("vi-VN"))
+                                    @CurrencyHelper.ToVnd(item.Price)
                                 </p>
 
                                 <form method="post">
                                     <input type="hidden" name="ProductId" value="@item.ProductId" />
 
                                     <div class="d-flex gap-2">
-                                        <input type="number" name="Quantity" value="1" min="1"
-                                               class="form-control" style="width:70px" />
+                                        <input type="number"
+                                               name="Quantity"
+                                               value="1"
+                                               min="1"
+                                               class="form-control"
+                                               style="width:70px" />
 
                                         @if (item.Stock > 0)
                                         {
-                                            <button type="submit" class="btn btn-success btn-sm">🛒 Thêm</button>
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                🛒 Thêm
+                                            </button>
                                         }
                                         else
                                         {
-                                            <button type="button" class="btn btn-secondary btn-sm" disabled>Hết hàng</button>
+                                            <button type="button"
+                                                    class="btn btn-secondary btn-sm"
+                                                    disabled>
+                                                Hết hàng
+                                            </button>
                                         }
                                     </div>
                                 </form>
@@ -68,7 +77,9 @@
                 <div class="card-body">
                     @if (cart == null || cart.Count == 0)
                     {
-                        <p class="text-muted text-center my-3">Giỏ hàng đang trống.</p>
+                        <p class="text-muted text-center my-3">
+                            Giỏ hàng đang trống.
+                        </p>
                     }
                     else
                     {
@@ -79,49 +90,50 @@
                                     <div>
                                         <h6 class="my-0">@cartItem.Name</h6>
 
-                                        <!-- ✅ FIX GIÁ -->
                                         <small class="text-muted">
-                                            SL: @cartItem.Quantity x @cartItem.Price.ToString("c0", new CultureInfo("vi-VN"))
+                                            SL: @cartItem.Quantity x
+                                            @CurrencyHelper.ToVnd(cartItem.Price)
                                         </small>
                                     </div>
 
                                     <div class="d-flex align-items-center gap-1">
-                                        <!-- ✅ FIX GIÁ -->
                                         <span class="text-muted fw-bold me-2">
-                                            @(cartItem.Quantity* cartItem.Price).ToString("c0", new CultureInfo("vi-VN"))
-                                        </span>
+                                            @CurrencyHelper.ToVnd(
+                                            cartItem.Quantity* cartItem.Price
+                                                                        )
+                                </span>
 
-                                        <form method="post" class="m-0 d-inline">
-                                            <button type="submit"
-                                                    asp-page-handler="Decrease"
-                                                    asp-route-removeId="@cartItem.ProductId"
-                                                    class="btn btn-outline-warning btn-sm px-2 py-0 fw-bold">
-                                                -
-                                            </button>
-                                        </form>
+                                <form method="post" class="m-0 d-inline">
+                                    <button type="submit"
+                                            asp-page-handler="Decrease"
+                                            asp-route-removeId="@cartItem.ProductId"
+                                            class="btn btn-outline-warning btn-sm px-2 py-0 fw-bold">
+                                        -
+                                    </button>
+                                </form>
 
-                                        <form method="post" class="m-0 d-inline">
-                                            <button type="submit"
-                                                    asp-page-handler="RemoveAll"
-                                                    asp-route-removeId="@cartItem.ProductId"
-                                                    class="btn btn-outline-danger btn-sm px-2 py-0 fw-bold">
-                                                x
-                                            </button>
-                                        </form>
-                                    </div>
-                                </li>
-                            }
+                                <form method="post" class="m-0 d-inline">
+                                    <button type="submit"
+                                            asp-page-handler="RemoveAll"
+                                            asp-route-removeId="@cartItem.ProductId"
+                                            class="btn btn-outline-danger btn-sm px-2 py-0 fw-bold">
+                                        x
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                                                }
                         </ul>
 
-                        <!-- ✅ FIX TOTAL -->
                         <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
                             <span>Tổng cộng:</span>
                             <span class="text-danger">
-                                @total.ToString("c0", new CultureInfo("vi-VN"))
+                                @CurrencyHelper.ToVnd(total)
                             </span>
                         </div>
 
-                        <a href="/Customer/Checkout" class="btn btn-success w-100 py-2">
+                        <a href="/Customer/Checkout"
+                           class="btn btn-success w-100 py-2">
                             💳 Thanh toán ngay
                         </a>
                     }

@@ -1,6 +1,6 @@
 ﻿@page
 @model GlassStore.Pages.CheckoutModel
-@using System.Globalization
+@using GlassStore.Helpers
 
 @{
     ViewData["Title"] = "Thanh toán";
@@ -30,7 +30,7 @@
                     </td>
 
                     <td class="text-danger fw-bold">
-                        @product.Price.ToString("c0", new CultureInfo("vi-VN"))
+                        @CurrencyHelper.ToVnd(product.Price)
                     </td>
 
                     <td>
@@ -38,7 +38,7 @@
                     </td>
 
                     <td class="fw-bold">
-                        @((product.Price * item.Quantity).ToString("c0", new CultureInfo("vi-VN")))
+                        @CurrencyHelper.ToVnd(product.Price * item.Quantity)
                     </td>
                 </tr>
             }
@@ -48,7 +48,7 @@
     <div class="text-end mb-4 fs-5 fw-bold">
         Tổng tiền:
         <span class="text-danger">
-            @Model.Total.ToString("c0", new CultureInfo("vi-VN"))
+            @CurrencyHelper.ToVnd(Model.Total)
         </span>
     </div>
 
